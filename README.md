@@ -78,6 +78,6 @@ adjust those for your setup.
     doi     = {10.64898/2025.12.23.696257},
     journal = {bioRxiv},
     publisher = {Cold Spring Harbor Laboratory},
-    URL     = {https://www.biorxiv.org/content/10.64898/2025.12.23.696257}
+    URL     = {https://www.biorxiv.org/content/early/2026/02/23/2025.12.23.696257}
 }
 ```
