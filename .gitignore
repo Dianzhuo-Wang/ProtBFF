@@ -1,0 +1,26 @@
+# large / regenerable artifacts
+*.npz
+*.npy
+*.pt
+*.pth
+*.pkl
+*.h5
+*.bin
+*.zip
+*.tgz
+*.pdb
+*.joblib
+
+# outputs / scratch
+tuning_v1/out/
+out/
+slurm_logs/
+*.log
+*.out
+*.err
+
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
