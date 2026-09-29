@@ -4,6 +4,8 @@
 
 *Feldman, Maechler, Wang & Shakhnovich — bioRxiv, 2026*
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23047724.svg)](https://doi.org/10.5281/zenodo.23047724)
+
 **ProtBFF** (**Prot**ein **B**iophysical **F**eature **F**ramework) is a small, encoder-agnostic
 module that injects five interpretable biophysical priors into residue-level protein embeddings
 through cross-embedding attention. It makes a pretrained protein language model noticeably better
@@ -61,12 +63,19 @@ python tuning_v1/protbff_arch.py \
     --cache <your_score_cache.npz> --embed_dim <D>
 ```
 
-## What's not in the repo
+## Data on Zenodo
 
-To keep it light, the large regenerable files are left out: FoldX mutant structures, per-residue
-embeddings, and score caches (`*.npz`, `*.pt`). The ProSST structure-quantizer weights (`*.joblib`)
-come from the ProSST release (AI4Protein/ProSST). A few scripts carry cluster-specific paths, so
-adjust those for your setup.
+The precomputed score caches (one per encoder for SKEMPI2, and for the SARS-CoV-2 DMS sets) and the
+trained model checkpoints are archived on Zenodo:
+
+**DOI: [10.5281/zenodo.23047724](https://doi.org/10.5281/zenodo.23047724)**
+
+Download those to reproduce the results without recomputing embeddings — the `*.npz` caches feed
+`tuning_v1/protbff_arch.py` directly, and the checkpoint tarball unpacks into `model_benchmarking/`
+for `evaluate_saved_models.py`. Everything else that is omitted here (FoldX mutant structures,
+per-residue embeddings, and the ProSST structure-quantizer weights from AI4Protein/ProSST) is
+regenerable with the pipeline in this repo. A few scripts carry cluster-specific paths, so adjust
+those for your setup.
 
 ## Citation
 
