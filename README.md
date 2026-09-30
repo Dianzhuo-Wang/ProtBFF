@@ -15,6 +15,8 @@ binding — those at the interface, buried in the core, or whose local structure
 
 ![ProtBFF overview](docs/overview.jpg)
 
+*High-resolution TIFFs of all paper figures are in [`figures/`](figures).*
+
 This repository also ships an honest benchmark. The usual SKEMPI2 splits leak homology between
 train and test, because many "different" complexes are near-duplicates of one another, and that
 inflates every model's reported score. We include **MVA-60**, a chain-level homology-controlled
