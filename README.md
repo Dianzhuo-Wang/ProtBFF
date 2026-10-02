@@ -65,6 +65,15 @@ python tuning_v1/protbff_arch.py \
     --cache <your_score_cache.npz> --embed_dim <D>
 ```
 
+## Ablations
+
+[`results/pooling_ablation.md`](results/pooling_ablation.md) reports how the choice of
+residue-pooling operator changes accuracy (score-scaled max, used in ProtBFF, versus signed
+max-abs and the score-weighted mean) on the MVA-60 split for both ProSST and ESM-C. The raw
+per-fold metrics are the JSON files alongside it, and the generating scripts are in
+`experiments/` (`modal_maxabs_arch.py`, `modal_prosst_maxabs.py`, `modal_wpool_arch.py`) with
+the cache builder `data_pipeline/build_wpool_cache.py`.
+
 ## Data on Zenodo
 
 The precomputed score caches (one per encoder for SKEMPI2, and for the SARS-CoV-2 DMS sets) and the

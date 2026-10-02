@@ -196,20 +196,22 @@ def main():
         res[v] = {k: (val.tolist() if isinstance(val, np.ndarray) else val) for k, val in r.items()}
         print(f"[{v:11s}] mean_r={r['mean_r']:.4f}±{r['sem_r']:.3f}  mean_s={r['mean_s']:.4f}±{r['sem_s']:.3f}  "
               f"pooled_r={r['pooled_r']:.4f} pooled_s={r['pooled_s']:.4f}  ({time.time()-t0:.0f}s)", flush=True)
-    # paired stats vs antisym baseline
-    base = np.array(res['antisym']['fold_r']); base_s = np.array(res['antisym']['fold_s'])
-    print("\n=== PAIRED vs antisym baseline (10 folds, Wilcoxon) ===", flush=True)
-    print(f"{'variant':12s}  dPearson(mean±sd)   p      dSpearman(mean±sd)  p", flush=True)
-    for v in variants:
-        if v == 'antisym': continue
-        dr = np.array(res[v]['fold_r']) - base; dsp = np.array(res[v]['fold_s']) - base_s
-        pr = wilcoxon(dr)[1] if np.any(dr) else 1.0
-        ps = wilcoxon(dsp)[1] if np.any(dsp) else 1.0
-        print(f"{v:12s}  {dr.mean():+.4f}±{dr.std():.3f}   {pr:.3f}   {dsp.mean():+.4f}±{dsp.std():.3f}   {ps:.3f}", flush=True)
-    json.dump(res, open(args.out, 'w'), indent=2, default=float)
+    json.dump(res, open(args.out, 'w'), indent=2, default=float)   # save results FIRST (robust to any variant set)
+    # paired stats vs antisym baseline (only when antisym was run)
+    if 'antisym' in res:
+        base = np.array(res['antisym']['fold_r']); base_s = np.array(res['antisym']['fold_s'])
+        print("\n=== PAIRED vs antisym baseline (10 folds, Wilcoxon) ===", flush=True)
+        print(f"{'variant':12s}  dPearson(mean±sd)   p      dSpearman(mean±sd)  p", flush=True)
+        for v in variants:
+            if v == 'antisym': continue
+            dr = np.array(res[v]['fold_r']) - base; dsp = np.array(res[v]['fold_s']) - base_s
+            pr = wilcoxon(dr)[1] if np.any(dr) else 1.0
+            ps = wilcoxon(dsp)[1] if np.any(dsp) else 1.0
+            print(f"{v:12s}  {dr.mean():+.4f}±{dr.std():.3f}   {pr:.3f}   {dsp.mean():+.4f}±{dsp.std():.3f}   {ps:.3f}", flush=True)
     print("\n=== SUMMARY (mean-of-folds Pearson / Spearman ; pooled) ===", flush=True)
     print(f"{'model':14s}  meanP±sem    meanS       poolP  poolS", flush=True)
-    for k in ['antisym'] + [v for v in variants if v != 'antisym'] + ['ridge_DS']:
+    order = (['antisym'] if 'antisym' in res else []) + [v for v in variants if v != 'antisym'] + (['ridge_DS'] if 'ridge_DS' in res else [])
+    for k in order:
         a = res[k]
         print(f"{k:14s}  {a['mean_r']:.3f}±{a['sem_r']:.3f}  {a['mean_s']:.3f}      {a['pooled_r']:.3f}  {a['pooled_s']:.3f}", flush=True)
 
